@@ -2,33 +2,33 @@ package com.example.scheduling.system.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 @Entity
-@Table(name = "users")
-//@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "UsersList")
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
     private String username;
+    private String password;
+    private String role;
+    private String email; // Email for reminders
+    private String empNo; // Employee Number
 
-    @Column(nullable = false)
-    private String password; // Use a hashed password
 
-    @Column(nullable = false)
-    private String email;
 
+    // Getters and Setters
 
     public Long getId() {
         return id;
@@ -46,6 +46,14 @@ public class User implements UserDetails {
         this.password = password;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -54,20 +62,28 @@ public class User implements UserDetails {
         this.email = email;
     }
 
+    public String getEmpNo() {
+        return empNo;
+    }
+
+    public void setEmpNo(String empNo) {
+        this.empNo = empNo;
+    }
+
     // UserDetails methods
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null; // Simplified: no roles or authorities for this basic setup
+        return Collections.singletonList(() -> role);
     }
 
     @Override
     public String getPassword() {
-        return "";
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return "";
+        return username;
     }
 
     @Override
@@ -89,7 +105,4 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
-
-
 }

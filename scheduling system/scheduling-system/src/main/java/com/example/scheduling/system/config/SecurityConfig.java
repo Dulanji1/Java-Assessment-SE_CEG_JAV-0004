@@ -1,47 +1,41 @@
 package com.example.scheduling.system.config;
 
-import com.example.scheduling.system.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig {
 
     @Bean
-    public UserDetailsService userDetailsService() {
-        return new CustomUserDetailsService();
-    }
-
-    @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder, UserDetailsService userDetailsService)
-            throws Exception {
-        return http.getSharedObject(AuthenticationManagerBuilder.class)
-                .userDetailsService(userDetailsService)
-                .passwordEncoder(bCryptPasswordEncoder)
-                .and()
-                .build();
+        return new BCryptPasswordEncoder(); // Password encoder bean
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.csrf().disable()
-                .authorizeHttpRequests()
-                .requestMatchers("/auth/**").permitAll() // Use requestMatchers for new Spring Security
-                .anyRequest().authenticated()
+        http
+                .csrf().disable() // Disable CSRF for simplicity
+                .authorizeRequests()
+                .requestMatchers("/api/auth/register", "/api/auth/login").permitAll() // Allow unauthenticated access to specific endpoints
+                .requestMatchers("/api/v1/employee/**").permitAll() // Allow access to all endpoints under /api/v1/employee
+                .requestMatchers("/api/tasks/**").permitAll() // Allow access to task endpoints
+                .requestMatchers("/api/v1/mail/**").permitAll()
+                .anyRequest().authenticated() // Require authentication for all other endpoints
                 .and()
-                .build();
+                .formLogin().disable(); // Disable default form login
+
+        return http.build();
+    }
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().requestMatchers("/swagger-ui/**"); // Ignore Swagger UI if you're using it
     }
 }
