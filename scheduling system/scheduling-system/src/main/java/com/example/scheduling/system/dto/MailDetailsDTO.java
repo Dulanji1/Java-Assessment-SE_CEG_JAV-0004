@@ -1,5 +1,11 @@
 package com.example.scheduling.system.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
+//@Data
 public class MailDetailsDTO {
     private String toMail;
     private String subject;
@@ -30,4 +36,6 @@ public class MailDetailsDTO {
     public void setMessage(String message) {
         this.message = message;
     }
+
+
 }

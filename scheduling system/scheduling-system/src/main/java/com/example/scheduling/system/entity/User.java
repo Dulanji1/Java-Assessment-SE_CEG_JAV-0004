@@ -8,12 +8,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "UsersList")
+@Table(name = "Users")
 public class User implements UserDetails {
 
     @Id
@@ -26,9 +25,8 @@ public class User implements UserDetails {
     private String email; // Email for reminders
     private String empNo; // Employee Number
 
-
-
     // Getters and Setters
+
 
     public Long getId() {
         return id;
@@ -70,7 +68,6 @@ public class User implements UserDetails {
         this.empNo = empNo;
     }
 
-    // UserDetails methods
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(() -> role);

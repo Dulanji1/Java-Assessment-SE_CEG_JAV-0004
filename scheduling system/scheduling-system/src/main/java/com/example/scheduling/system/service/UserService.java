@@ -1,6 +1,5 @@
 package com.example.scheduling.system.service;
 
-
 import com.example.scheduling.system.entity.User;
 import com.example.scheduling.system.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

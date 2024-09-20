@@ -1,7 +1,10 @@
 package com.example.scheduling.system.controller;
 
 import com.example.scheduling.system.entity.Task;
+import com.example.scheduling.system.entity.User;
 import com.example.scheduling.system.repository.TaskRepository;
+import com.example.scheduling.system.repository.UserRepository;
+import com.example.scheduling.system.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,30 +20,42 @@ public class TaskController {
     @Autowired
     private TaskRepository taskRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private TaskService taskService;
+
     // Create Task
     @PostMapping
     public ResponseEntity<String> createTask(@RequestBody Task task) {
+        // Ensure the user exists before assigning
+        Optional<User> user = userRepository.findById(task.getUserId());
+        if (!user.isPresent()) {
+            return new ResponseEntity<>("User not found for User ID: " + task.getUserId(), HttpStatus.BAD_REQUEST);
+        }
+
+        // Save the task
         Task createdTask = taskRepository.save(task);
+
+        // Send notification email (if needed)
+        String emailResponse = taskService.sendTaskCreationEmail(user.get(), createdTask);
+
         return new ResponseEntity<>(
                 "Task created successfully! Task ID: " + createdTask.getId() +
                         ", Name: " + createdTask.getName() +
-                        ", Scheduled Time: " + createdTask.getScheduledTime(),
+                        ", Scheduled Time: " + createdTask.getScheduledTime() +
+                        ", Email Status: " + emailResponse,
                 HttpStatus.CREATED);
     }
 
     // Get Tasks by User ID
-    @GetMapping({"/{userId}", "/"})
-    public ResponseEntity<?> getTasksByUserId(@PathVariable(required = false) Long userId) {
-        if (userId == null) {
-            return new ResponseEntity<>("User ID is missing. Please provide a valid User ID.", HttpStatus.BAD_REQUEST);
-        }
-
+    @GetMapping("/{userId}")
+    public ResponseEntity<?> getTasksByUserId(@PathVariable Long userId) {
         List<Task> tasks = taskRepository.findByUserId(userId);
-
         if (tasks.isEmpty()) {
             return new ResponseEntity<>("No tasks found for User ID: " + userId, HttpStatus.OK);
         }
-
         return new ResponseEntity<>(tasks, HttpStatus.OK);
     }
 
@@ -55,10 +70,16 @@ public class TaskController {
         }
         task.setId(id);
         Task updatedTask = taskRepository.save(task);
+
+        // Optionally, send notification email
+        Optional<User> user = userRepository.findById(updatedTask.getUserId());
+        String emailResponse = user.map(value -> taskService.sendTaskUpdateEmail(value, updatedTask)).orElse("No user found for this task.");
+
         return new ResponseEntity<>(
                 "Task updated successfully! Task ID: " + updatedTask.getId() +
                         ", Updated Name: " + updatedTask.getName() +
-                        ", Updated Scheduled Time: " + updatedTask.getScheduledTime(),
+                        ", Updated Scheduled Time: " + updatedTask.getScheduledTime() +
+                        ", Email Status: " + emailResponse,
                 HttpStatus.OK);
     }
 

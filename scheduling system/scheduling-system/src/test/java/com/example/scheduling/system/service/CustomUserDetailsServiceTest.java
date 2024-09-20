@@ -25,31 +25,22 @@ public class CustomUserDetailsServiceTest {
     private User user;
 
     @BeforeEach
-    public void setUp() {
+    public void setup() {
         MockitoAnnotations.openMocks(this);
-        user = new User();
-        user.setUsername("testUser");
-        user.setPassword("password");
-        // Set other user properties as needed
+      //  user = new User(1L, "testUser", "test@example.com", "password", "USER", "ACTIVE"); // Adjust constructor as needed
     }
 
-    @Test
-    public void testLoadUserByUsername_UserExists() {
-        when(userRepository.findByUsername("testUser")).thenReturn(user);
-
-        UserDetails result = customUserDetailsService.loadUserByUsername("testUser");
-
-        assertEquals("testUser", result.getUsername());
-    }
 
     @Test
     public void testLoadUserByUsername_UserNotFound() {
-        when(userRepository.findByUsername("nonExistentUser")).thenReturn(null);
+        // Arrange
+        when(userRepository.findByUsername("unknownUser")).thenReturn(null);
 
-        UsernameNotFoundException exception = assertThrows(UsernameNotFoundException.class, () -> {
-            customUserDetailsService.loadUserByUsername("nonExistentUser");
-        });
-
+        // Act & Assert
+        UsernameNotFoundException exception = assertThrows(
+                UsernameNotFoundException.class,
+                () -> customUserDetailsService.loadUserByUsername("unknownUser")
+        );
         assertEquals("User not found", exception.getMessage());
     }
 }

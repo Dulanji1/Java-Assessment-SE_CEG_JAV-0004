@@ -21,6 +21,17 @@ public class Task {
 
     private Long userId; // Reference to the user who created the task
 
+    @Column(name = "completion_time")
+    private LocalDateTime completionTime;
+
+    public LocalDateTime getCompletionTime() {
+        return completionTime;
+    }
+
+    public void setCompletionTime(LocalDateTime completionTime) {
+        this.completionTime = completionTime;
+    }
+
     public Long getId() {
         return id;
     }
@@ -68,4 +79,5 @@ public class Task {
     public void setUserId(Long userId) {
         this.userId = userId;
     }
+
 }
