@@ -1,6 +1,5 @@
 package com.example.scheduling.system.config;
 
-
 import com.example.scheduling.system.scheduler.MotivationalEmailJob;
 import org.quartz.*;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,15 +19,15 @@ public class QuartzConfig {
                 .build();
     }
 
-//    // Define a trigger for the job, set to run every Monday at 8 AM
-//    @Bean
-//    public Trigger motivationalEmailTrigger() {
-//        return TriggerBuilder.newTrigger()
-//                .forJob(motivationalEmailJobDetail()) // Link this trigger to the job
-//                .withIdentity("motivationalEmailTrigger")
-//                .withSchedule(CronScheduleBuilder.weeklyOnDayAndHourAndMinute(DateBuilder.MONDAY, 8, 0)) // Every Monday at 8 AM
-//                .build();
-//    }
+    // Define a trigger for the job, set to run every Monday at 8 AM
+    @Bean
+    public Trigger motivationalEmailTrigger() {
+        return TriggerBuilder.newTrigger()
+                .forJob(motivationalEmailJobDetail()) // Link this trigger to the job
+                .withIdentity("motivationalEmailTrigger")
+                .withSchedule(CronScheduleBuilder.weeklyOnDayAndHourAndMinute(DateBuilder.MONDAY, 8, 0)) // Every Monday at 8 AM
+                .build();
+    }
 
     /*
 Cron Expression Explanation:
@@ -40,14 +39,14 @@ Cron Expression Explanation:
   - ?: Any day of the week.
 */
 
-    @Bean
-    public Trigger motivationalEmailTrigger(@Qualifier("motivationalemail") JobDetail jobDetail) {
-        return TriggerBuilder.newTrigger()
-                .forJob(motivationalEmailJobDetail()) // Link this trigger to the job
-                .withIdentity("motivationalEmailTrigger")
-                .withSchedule(CronScheduleBuilder.cronSchedule("0 * * * * ?")) // Run every minute
-                .build();
-    }
+//    @Bean
+//    public Trigger motivationalEmailTrigger(@Qualifier("motivationalemail") JobDetail jobDetail) {
+//        return TriggerBuilder.newTrigger()
+//                .forJob(motivationalEmailJobDetail()) // Link this trigger to the job
+//                .withIdentity("motivationalEmailTrigger")
+//                .withSchedule(CronScheduleBuilder.cronSchedule("0 * * * * ?")) // Run every minute
+//                .build();
+//    }
 
 
 }

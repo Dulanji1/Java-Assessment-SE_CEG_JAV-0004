@@ -6,29 +6,16 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.3.3</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/> <!-- Inherit properties from the Spring Boot starter parent -->
     </parent>
     <groupId>com.example</groupId>
     <artifactId>scheduling-system</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>scheduling-system</name>
     <description>Task Automation and Scheduling System</description>
-    <url/>
-    <licenses>
-        <license/>
-    </licenses>
-    <developers>
-        <developer/>
-    </developers>
-    <scm>
-        <connection/>
-        <developerConnection/>
-        <tag/>
-        <url/>
-    </scm>
 
     <properties>
-        <java.version>17</java.version>
+        <java.version>17</java.version> <!-- Java version used in the project -->
     </properties>
 
     <dependencies>
@@ -37,18 +24,21 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <!-- Used for building web applications, including REST APIs -->
         </dependency>
 
         <!-- Spring Security -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
+            <!-- Provides security features like authentication and authorization -->
         </dependency>
 
         <!-- Spring Boot Starter Data JPA -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <!-- Provides integration with JPA (Java Persistence API) for database interactions -->
         </dependency>
 
         <!-- JWT (for Token Authentication) -->
@@ -56,35 +46,41 @@
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
             <version>0.9.1</version>
+            <!-- JJWT library for handling JWT-based authentication -->
         </dependency>
-
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-api</artifactId>
             <version>0.11.5</version> <!-- Latest version as of now -->
+            <!-- JJWT API for generating and validating JWT tokens -->
         </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-impl</artifactId>
             <version>0.11.5</version>
+            <!-- Implementation of JJWT API -->
         </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-jackson</artifactId>
             <version>0.11.5</version>
+            <!-- Jackson integration with JJWT for handling JSON-based JWT payloads -->
         </dependency>
 
+        <!-- ModelMapper for object mapping -->
         <dependency>
             <groupId>org.modelmapper</groupId>
             <artifactId>modelmapper</artifactId>
-            <version>3.1.0</version> <!-- Check for the latest version -->
+            <version>3.1.0</version>
+            <!-- ModelMapper library simplifies object mapping between DTOs and entities -->
         </dependency>
 
-        <!-- Lombok -->
+        <!-- Lombok for reducing boilerplate code -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
+            <!-- Lombok generates getters, setters, constructors, etc., reducing boilerplate code -->
         </dependency>
 
         <!-- Jakarta EE for Servlets -->
@@ -92,6 +88,7 @@
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
             <scope>provided</scope>
+            <!-- Provides Servlet API support for building web applications -->
         </dependency>
 
         <!-- H2 Database (for demo purposes) -->
@@ -99,12 +96,14 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
+            <!-- H2 in-memory database used for testing and prototyping purposes -->
         </dependency>
 
         <!-- PostgreSQL Database -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
+            <!-- PostgreSQL driver for interacting with PostgreSQL database -->
         </dependency>
 
         <!-- Spring Boot DevTools (Optional for development purposes) -->
@@ -112,41 +111,54 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
+            <!-- Provides hot-reloading and other development tools -->
         </dependency>
 
+        <!-- Spring Boot Starter Test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+            <!-- Provides testing framework with JUnit, Mockito, and Spring TestContext -->
         </dependency>
 
+        <!-- JAXB API for XML Binding -->
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
             <version>2.3.1</version>
+            <!-- JAXB for converting Java objects to XML and vice-versa -->
         </dependency>
 
-        <!-- Quartz Scheduler -->
+        <!-- Quartz Scheduler for task scheduling -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-quartz</artifactId>
+            <!-- Quartz for scheduling tasks such as CRON jobs -->
         </dependency>
 
-
+        <!-- Spring Boot Mail for sending emails -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
+            <!-- Provides support for sending emails using JavaMail API -->
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>3.0.2</version> <!-- or any suitable version -->
         </dependency>
 
 
     </dependencies>
-
 
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <!-- Maven plugin for packaging the Spring Boot application as a runnable JAR -->
             </plugin>
         </plugins>
     </build>

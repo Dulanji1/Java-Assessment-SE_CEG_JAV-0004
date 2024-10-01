@@ -9,12 +9,9 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
+import jakarta.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-
-import jakarta.transaction.Transactional;
-
 
 @Service
 @Transactional
@@ -25,7 +22,6 @@ public class EmployeeService {
 
     @Autowired
     private ModelMapper modelMapper;
-
 
     public String saveEmployee(EmployeeDTO employeeDTO) {
         if (employeeRepo.existsById(employeeDTO.getEmpID())) {
@@ -40,7 +36,6 @@ public class EmployeeService {
         if (employeeRepo.existsById(employeeDTO.getEmpID())) {
             employeeRepo.save(modelMapper.map(employeeDTO, Employee.class));
             return VarList.RSP_SUCCESS;
-
         } else {
             return VarList.RSP_NO_DATA_FOUND;
         }
@@ -48,8 +43,7 @@ public class EmployeeService {
 
     public List<EmployeeDTO> getAllEmployee() {
         List<Employee> employeeList = employeeRepo.findAll();
-        return modelMapper.map(employeeList, new TypeToken<ArrayList<EmployeeDTO>>() {
-        }.getType());
+        return modelMapper.map(employeeList, new TypeToken<ArrayList<EmployeeDTO>>() {}.getType());
     }
 
     public EmployeeDTO searchEmployee(int empID) {

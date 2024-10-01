@@ -1,19 +1,29 @@
 package com.example.scheduling.system.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
-@AllArgsConstructor
-@NoArgsConstructor
-//@Data
 public class EmployeeDTO {
-    private int empID;
-    private String empName;
-    private String empAddress;
-    private String empMNumber;
 
-    
+    private int empID;  // Assuming empID is an integer
+
+    @NotBlank(message = "Employee Name cannot be blank")
+    private String empName;
+
+    @NotBlank(message = "Employee Address cannot be blank")
+    private String empAddress;
+
+    @NotBlank(message = "Employee Mobile Number cannot be blank")
+    private String empMobileNumber;
+
+    @NotBlank(message = "Employee Role cannot be blank")
+    private String empRole;
+
+    @NotBlank(message = "Employee Email cannot be blank")
+    @Email(message = "Email should be valid")
+    private String empMail;
+
+    // Getters and Setters
     public int getEmpID() {
         return empID;
     }
@@ -38,11 +48,27 @@ public class EmployeeDTO {
         this.empAddress = empAddress;
     }
 
-    public String getEmpMNumber() {
-        return empMNumber;
+    public String getEmpMobileNumber() {
+        return empMobileNumber;
     }
 
-    public void setEmpMNumber(String empMNumber) {
-        this.empMNumber = empMNumber;
+    public void setEmpMobileNumber(String empMobileNumber) {
+        this.empMobileNumber = empMobileNumber;
+    }
+
+    public String getEmpRole() {
+        return empRole;
+    }
+
+    public void setEmpRole(String empRole) {
+        this.empRole = empRole;
+    }
+
+    public String getEmpMail() {
+        return empMail;
+    }
+
+    public void setEmpMail(String empMail) {
+        this.empMail = empMail;
     }
 }

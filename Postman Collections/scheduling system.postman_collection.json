@@ -2,209 +2,35 @@
 	"info": {
 		"_postman_id": "c47c92ca-c97c-4086-b7df-52c6d7bf0281",
 		"name": "scheduling system",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
 		"_exporter_id": "23512729",
 		"_collection_link": "https://orange-escape-442612.postman.co/workspace/Team-Workspace~6efaddfd-2c57-44a5-8301-24939465f0a8/collection/23512729-c47c92ca-c97c-4086-b7df-52c6d7bf0281?action=share&source=collection_link&creator=23512729"
 	},
 	"item": [
 		{
-			"name": "Auth",
-			"item": [
-				{
-					"name": "http://localhost:8080/auth/encode?password=yourpassword",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/auth/encode?password=yourpassword",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"auth",
-								"encode"
-							],
-							"query": [
-								{
-									"key": "password",
-									"value": "yourpassword"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "http://localhost:8080/auth/login",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "$2a$10$iByzX4XMMDlDbN9HLUVfF.zGu93jDJ9P7nfxAFCR3MDamxQLXL6b2",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"1233\",\r\n    \"password\": \"1233\"\r\n\r\n}\r\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/auth/login",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"auth",
-								"login"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "http://localhost:8080/auth/register",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "$2a$10$iByzX4XMMDlDbN9HLUVfF.zGu93jDJ9P7nfxAFCR3MDamxQLXL6b2",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"username\": \"testuser\",\r\n  \"password\": \"password123\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/auth/register",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"auth",
-								"register"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "http://localhost:8080/auth/encode?password=plainPassword",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "$2a$10$0gAbED9bq673ZMp.XWGRFuyabU.DNTPOit87BkAmdDkG/DWo7Spr.",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"password\": \"mysecretpassword\"\r\n}\r\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/auth/encode?password=plainPassword",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"auth",
-								"encode"
-							],
-							"query": [
-								{
-									"key": "password",
-									"value": "plainPassword"
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Employee",
+			"name": "Employye",
 			"item": [
 				{
 					"name": "http://localhost:8080/api/v1/employee/saveEmployee",
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": ""
+							}
 						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"empID\": \"6\",\r\n    \"empAddress\": \"Matara\",\r\n    \"empMNumber\": \"077834087\",\r\n    \"empName\": \"Sara\"\r\n}",
+							"raw": "{\r\n    \"empID\": \"9\",\r\n    \"empAddress\": \"Malabe\",\r\n    \"empMNumber\": \"076567654\",\r\n    \"empName\": \"Malki\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/employee/saveEmployee",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"employee",
-								"saveEmployee"
-							]
-						}
+						"url": "http://localhost:8080/api/v1/employee/saveEmployee"
 					},
 					"response": []
 				},
@@ -213,20 +39,7 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/api/v1/employee/getAllEmployees",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"employee",
-								"getAllEmployees"
-							]
-						}
+						"url": "http://localhost:8080/api/v1/employee/getAllEmployees"
 					},
 					"response": []
 				},
@@ -235,21 +48,7 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/api/v1/employee/deleteEmployee/6",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"employee",
-								"deleteEmployee",
-								"6"
-							]
-						}
+						"url": "http://localhost:8080/api/v1/employee/deleteEmployee/6"
 					},
 					"response": []
 				},
@@ -258,21 +57,7 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/api/v1/employee/searchEmployee/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"employee",
-								"searchEmployee",
-								"1"
-							]
-						}
+						"url": "http://localhost:8080/api/v1/employee/searchEmployee/1"
 					},
 					"response": []
 				},
@@ -290,8 +75,17 @@
 								}
 							}
 						},
+						"url": "http://localhost:8080/api/v1/employee//updateEmployee"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:8080/api/v1/employee/getAllEmployees?page=0&size=10",
+					"request": {
+						"method": "GET",
+						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/employee//updateEmployee",
+							"raw": "http://localhost:8080/api/v1/employee/getAllEmployees?page=0&size=10",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -301,8 +95,17 @@
 								"api",
 								"v1",
 								"employee",
-								"",
-								"updateEmployee"
+								"getAllEmployees"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
 							]
 						}
 					},
@@ -311,7 +114,7 @@
 			]
 		},
 		{
-			"name": "Users",
+			"name": "Auth",
 			"item": [
 				{
 					"name": "http://localhost:8080/api/auth/register",
@@ -331,26 +134,14 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"Sara\",\r\n    \"password\": \"Sara\",\r\n    \"empNo\": \"EMP006\",\r\n    \"email\": \"sara@gmail.com\"\r\n}\r\n",
+							"raw": "{\r\n    \"username\": \"Nimsara\",\r\n    \"password\": \"Nimsara\",\r\n    \"empNo\": \"EMP010\",\r\n    \"email\": \"nimsara@gmail.com\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": {
-							"raw": "http://localhost:8080/api/auth/register",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"auth",
-								"register"
-							]
-						}
+						"url": "http://localhost:8080/api/auth/register"
 					},
 					"response": []
 				},
@@ -372,26 +163,14 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"john_doe\",\r\n    \"password\": \"password123\"\r\n}",
+							"raw": "{\r\n    \"id\": 2,\r\n    \"password\": \"Dulanji\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": {
-							"raw": "http://localhost:8080/api/auth/login",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"auth",
-								"login"
-							]
-						}
+						"url": "http://localhost:8080/api/auth/login"
 					},
 					"response": []
 				},
@@ -400,29 +179,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJEdWxhbmppIiwiZXhwIjoxNzI2ODMyNTc2fQ.nNSpMvAPHlw6ziuEucLnPsX97eE7-RhXPlPxHHwo4Lg",
-									"type": "string"
-								}
-							]
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJEdWxhbmppIiwiZXhwIjoxNzI3MTY2MTc5fQ.bXpvHKa-UmgFeu-KkGN3oRPMx0y_9BrTFQLp--fb70M"
+							}
 						},
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/api/auth/profile",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"auth",
-								"profile"
-							]
-						}
+						"url": "http://localhost:8080/api/auth/profile"
 					},
 					"response": []
 				},
@@ -431,20 +194,7 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/api/auth/delete/Sara",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"auth",
-								"delete",
-								"Sara"
-							]
-						}
+						"url": "http://localhost:8080/api/auth/delete/Sara"
 					},
 					"response": []
 				}
@@ -466,25 +216,14 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Task 09 - User Feedback Analysis\",\r\n    \"description\": \"Analyze user feedback from the last release to identify improvement areas.\",\r\n    \"scheduledTime\": \"2024-09-26T11:30:00\",\r\n    \"status\": \"COMPLETED\",\r\n    \"userId\": 4\r\n}\r\n",
+							"raw": "{\r\n    \"name\": \"Task 14 - User Feedback Analysis\",\r\n    \"description\": \"Analyze user feedback from the last release to identify improvement areas.\",\r\n    \"scheduledTime\": \"2024-09-26T11:30:00\",\r\n    \"completionTime\":\"2024-09-26T11:30:00\",\r\n    \"status\": \"COMPLETED\",\r\n    \"userId\": 6\r\n\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": {
-							"raw": "http://localhost:8080/api/tasks",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"tasks"
-							]
-						}
+						"url": "http://localhost:8080/api/tasks"
 					},
 					"response": []
 				},
@@ -493,19 +232,7 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/api/tasks/2",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"tasks",
-								"2"
-							]
-						}
+						"url": "http://localhost:8080/api/tasks/2"
 					},
 					"response": []
 				},
@@ -514,19 +241,7 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/api/tasks/9",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"tasks",
-								"9"
-							]
-						}
+						"url": "http://localhost:8080/api/tasks/9"
 					},
 					"response": []
 				},
@@ -537,26 +252,14 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Task 07 - Data Migration Plan\",\r\n    \"description\": \"Develop a strategy for migrating data to the new database system.\",\r\n    \"scheduledTime\": \"2024-09-24T16:00:00\",\r\n    \"status\": \"COMPLETED\",\r\n    \"userId\": 2\r\n}",
+							"raw": "{\r\n    \"name\": \"Task 02 - User Authentication Enhancement\",\r\n    \"description\": \"Implement two-factor authentication for user logins.\",\r\n    \"scheduledTime\": \"2024-09-19T09:00:00\",\r\n    \"status\": \"PENDING\",\r\n    \"userId\": 2,\r\n    \"completionTime\": null\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": {
-							"raw": "http://localhost:8080/api/tasks/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"tasks",
-								"1"
-							]
-						}
+						"url": "http://localhost:8080/api/tasks/2"
 					},
 					"response": []
 				}
@@ -585,20 +288,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/mail/sendemail",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"mail",
-								"sendemail"
-							]
-						}
+						"url": "http://localhost:8080/api/v1/mail/sendemail"
 					},
 					"response": []
 				},
@@ -613,19 +303,7 @@
 								"type": "text"
 							}
 						],
-						"url": {
-							"raw": "http://localhost:8080/api/notifications/send",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"notifications",
-								"send"
-							]
-						}
+						"url": "http://localhost:8080/api/notifications/send"
 					},
 					"response": []
 				}

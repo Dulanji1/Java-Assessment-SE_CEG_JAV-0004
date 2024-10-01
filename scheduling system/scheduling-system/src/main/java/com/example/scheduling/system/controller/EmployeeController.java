@@ -3,146 +3,113 @@ package com.example.scheduling.system.controller;
 import com.example.scheduling.system.dto.EmployeeDTO;
 import com.example.scheduling.system.dto.ResponseDTO;
 import com.example.scheduling.system.service.EmployeeService;
-import com.example.scheduling.system.util.VarList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import jakarta.validation.Valid;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("api/v1/employee")
+@Validated
 public class EmployeeController {
 
     @Autowired
     private EmployeeService employeeService;
 
-    @Autowired
-    private ResponseDTO responseDTO;
+    // In-memory store for employee names (for demo purposes)
+    private Set<String> employeeNames = new HashSet<>();
+    // Improved email pattern for validation
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z]{2,}$", Pattern.CASE_INSENSITIVE);
 
-    @PostMapping(value = "/saveEmployee")
-    public ResponseEntity saveEmployee(@RequestBody EmployeeDTO employeeDTO) {
+    // saveEmployee
+    @PostMapping
+    public ResponseEntity<ResponseDTO> saveEmployee(@Valid @RequestBody EmployeeDTO employeeDTO) {
+        ResponseDTO responseDTO = new ResponseDTO();
+
+        // Check for null values in EmployeeDTO
+        if (employeeDTO == null || employeeDTO.getEmpID() <= 0 || employeeDTO.getEmpName() == null || employeeDTO.getEmpMail() == null) {
+            return buildResponseEntity(HttpStatus.BAD_REQUEST, "Invalid input: Employee details are missing or null.", null);
+        }
+
+        // Check for email format
+        if (!isEmailValid(employeeDTO.getEmpMail())) {
+            return buildResponseEntity(HttpStatus.BAD_REQUEST, "Invalid email format.", null);
+        }
+
+        // Check for duplicate employee names
+        if (employeeNames.contains(employeeDTO.getEmpName())) {
+            return buildResponseEntity(HttpStatus.BAD_REQUEST, "Employee name already exists.", employeeDTO);
+        } else {
+            employeeNames.add(employeeDTO.getEmpName()); // Add the name to the set
+        }
+
         try {
             String res = employeeService.saveEmployee(employeeDTO);
-            if (res.equals("00")) {
-                responseDTO.setCode(VarList.RSP_SUCCESS);
-                responseDTO.setMessage("Success");
-                responseDTO.setContent(employeeDTO);
-                return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
-
-            } else if (res.equals("06")) {
-                responseDTO.setCode(VarList.RSP_DUPLICATED);
-                responseDTO.setMessage("Employee Registered under Emp Number");
-                responseDTO.setContent(employeeDTO);
-                return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
-            } else {
-                responseDTO.setCode(VarList.RSP_FAIL);
-                responseDTO.setMessage("Error");
-                responseDTO.setContent(null);
-                return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
+            switch (res) {
+                case "00":
+                    return buildResponseEntity(HttpStatus.CREATED, "Success", employeeDTO);
+                case "06":
+                    return buildResponseEntity(HttpStatus.BAD_REQUEST, "Employee already registered under this Employee Number", employeeDTO);
+                default:
+                    return buildResponseEntity(HttpStatus.BAD_REQUEST, "Error occurred", null);
             }
-
         } catch (Exception ex) {
-            responseDTO.setCode(VarList.RSP_ERROR);
-            responseDTO.setMessage(ex.getMessage());
-            responseDTO.setContent(null);
-            return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
-
+            return buildResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), null);
         }
-
     }
 
-    @PutMapping(value = "/updateEmployee")
-    public ResponseEntity updateEmployee(@RequestBody EmployeeDTO employeeDTO) {
+    // updateEmployee
+    @PutMapping
+    public ResponseEntity<ResponseDTO> updateEmployee(@Valid @RequestBody EmployeeDTO employeeDTO) {
+        ResponseDTO responseDTO = new ResponseDTO();
+
+        // Check for null values in EmployeeDTO
+        if (employeeDTO == null || employeeDTO.getEmpID() <= 0 || employeeDTO.getEmpMail() == null) {
+            return buildResponseEntity(HttpStatus.BAD_REQUEST, "Invalid input: Employee details are missing or null.", null);
+        }
+
+        // Check for email format
+        if (!isEmailValid(employeeDTO.getEmpMail())) {
+            return buildResponseEntity(HttpStatus.BAD_REQUEST, "Invalid email format.", null);
+        }
+
+        // Check if the employee name is being changed and if it already exists
+        if (employeeNames.contains(employeeDTO.getEmpName())) {
+            return buildResponseEntity(HttpStatus.BAD_REQUEST, "Employee name already exists.", employeeDTO);
+        }
+
         try {
             String res = employeeService.updateEmployee(employeeDTO);
-            if (res.equals("00")) {
-                responseDTO.setCode(VarList.RSP_SUCCESS);
-                responseDTO.setMessage("Success");
-                responseDTO.setContent(employeeDTO);
-                return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
-            } else if (res.equals("01")) {
-                responseDTO.setCode(VarList.RSP_DUPLICATED);
-                responseDTO.setMessage("Not A Registered Employee");
-                responseDTO.setContent(employeeDTO);
-                return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
-            } else {
-                responseDTO.setCode(VarList.RSP_FAIL);
-                responseDTO.setMessage("Error");
-                responseDTO.setContent(null);
-                return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
+            switch (res) {
+                case "00":
+                    return buildResponseEntity(HttpStatus.ACCEPTED, "Success", employeeDTO);
+                case "01":
+                    return buildResponseEntity(HttpStatus.BAD_REQUEST, "Not a registered employee", employeeDTO);
+                default:
+                    return buildResponseEntity(HttpStatus.BAD_REQUEST, "Error occurred", null);
             }
         } catch (Exception ex) {
-            responseDTO.setCode(VarList.RSP_ERROR);
-            responseDTO.setMessage(ex.getMessage());
-            responseDTO.setContent(null);
-            return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+            return buildResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), null);
         }
     }
 
-    @GetMapping("/getAllEmployees")
-    public ResponseEntity getAllEmployees() {
-        try {
-            List<EmployeeDTO> employeeDTOList = employeeService.getAllEmployee();
-            responseDTO.setCode(VarList.RSP_SUCCESS);
-            responseDTO.setMessage("Success");
-            responseDTO.setContent(employeeDTOList);
-            return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
-
-        } catch (Exception ex) {
-            responseDTO.setCode(VarList.RSP_ERROR);
-            responseDTO.setMessage(ex.getMessage());
-            responseDTO.setContent(null);
-            return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
-
-        }
+    // Helper method to check email format
+    private boolean isEmailValid(String email) {
+        return EMAIL_PATTERN.matcher(email).matches();
     }
 
-    @GetMapping("/searchEmployee/{empID}")
-    public ResponseEntity searchEmployee(@PathVariable int empID) {
-        try {
-            EmployeeDTO employeeDTO = employeeService.searchEmployee(empID);
-            if (employeeDTO != null) {
-                responseDTO.setCode(VarList.RSP_SUCCESS);
-                responseDTO.setMessage("Success");
-                responseDTO.setContent(employeeDTO);
-                return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
-            } else {
-                responseDTO.setCode(VarList.RSP_NO_DATA_FOUND);
-                responseDTO.setMessage("No Employee Available For this empID");
-                responseDTO.setContent(null);
-                return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
-            }
-        } catch (Exception e) {
-            responseDTO.setCode(VarList.RSP_ERROR);
-            responseDTO.setMessage(e.getMessage());
-            responseDTO.setContent(e);
-            return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    // Helper method to build ResponseEntity
+    private ResponseEntity<ResponseDTO> buildResponseEntity(HttpStatus status, String message, Object content) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setCode(status.value());
+        responseDTO.setMessage(message);
+        responseDTO.setContent(content);
+        return new ResponseEntity<>(responseDTO, status);
     }
-
-    @DeleteMapping("/deleteEmployee/{empID}")
-    public ResponseEntity deleteEmployee(@PathVariable int empID) {
-        try {
-            String res = employeeService.deleteEmployee(empID);
-            if (res.equals("00")) {
-                responseDTO.setCode(VarList.RSP_SUCCESS);
-                responseDTO.setMessage("Success");
-                responseDTO.setContent(null);
-                return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
-            } else {
-                responseDTO.setCode(VarList.RSP_NO_DATA_FOUND);
-                responseDTO.setMessage("No Employee Available For this empID");
-                responseDTO.setContent(null);
-                return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
-            }
-        } catch (Exception e) {
-            responseDTO.setCode(VarList.RSP_ERROR);
-            responseDTO.setMessage(e.getMessage());
-            responseDTO.setContent(e);
-            return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
 }

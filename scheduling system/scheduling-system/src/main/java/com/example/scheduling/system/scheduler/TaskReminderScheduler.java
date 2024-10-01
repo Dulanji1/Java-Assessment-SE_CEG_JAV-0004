@@ -34,11 +34,12 @@ public class TaskReminderScheduler {
     @Autowired
     private EmailLogRepository emailLogRepository;
 
-    //    // Scheduled task to remind users of their tasks every day at 8 PM//
-    //    @Scheduled(cron = "0 0 20 * * ?")  // Cron expression for 8 PM daily
 
     // Scheduled task to remind users of their tasks every minute
-    @Scheduled(cron = "0 * * * * ?")  // Cron expression for every minute
+    // @Scheduled(cron = "0 * * * * ?")  // Cron expression for every minute
+
+    // Scheduled task to remind users of their tasks every day at 8 PM//
+    @Scheduled(cron = "0 0 20 * * ?")  // Cron expression for 8 PM daily
     public void remindUsersOfTasks() {
         logger.info("Running scheduled task: remindUsersOfTasks at {}", LocalDateTime.now());
 

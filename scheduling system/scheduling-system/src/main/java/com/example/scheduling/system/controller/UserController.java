@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -24,15 +25,29 @@ public class UserController {
     @Autowired
     private JwtUtil jwtUtil;
 
+    // Regular expression to validate Gmail addresses
+    private static final String GMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@gmail\\.com$";
+    private static final Pattern GMAIL_PATTERN = Pattern.compile(GMAIL_REGEX);
+
     @PostMapping("/register")
     public String registerUser(@RequestBody User user) {
+        // Validate Gmail address
+        if (!isValidGmail(user.getEmail())) {
+            return "Invalid email address. Please use a valid Gmail address.";
+        }
+
         if (userRepository.existsByEmpNo(user.getEmpNo())) {
             return "User already exists under that emp no.";
         }
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole("ROLE_USER");
         userRepository.save(user);
         return "User registered successfully";
+    }
+
+    private boolean isValidGmail(String email) {
+        return email != null && GMAIL_PATTERN.matcher(email).matches();
     }
 
     @PostMapping("/login")
